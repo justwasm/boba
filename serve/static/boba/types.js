@@ -1,5 +1,5 @@
 /**
- * Booba type definitions
+ * Boba type definitions
  *
  * Re-exports of ghostty-web types that are part of boba's public API,
  * plus boba-specific types.
