@@ -1,10 +1,11 @@
 // boba-wasm-build compiles a Go package to WebAssembly, injecting
-// js/wasm stubs into BubbleTea v2 at build time.
+// js/wasm stubs into BubbleTea v2 and its dependencies at build time.
 //
 // BubbleTea v2 lacks js/wasm build tags for signal handling and TTY
-// initialization (see charmbracelet/bubbletea#1410). This tool works
-// around that by copying BubbleTea to a temp directory, adding stub
-// files, and building through a temporary go.mod replace directive.
+// initialization (see charmbracelet/bubbletea#1410). The atotto/clipboard
+// library also lacks js stubs. This tool works around both by copying
+// each module to a temp directory, adding stub files, and building
+// through temporary go.mod replace directives.
 //
 // Usage:
 //
@@ -30,7 +31,17 @@ import (
 //go:embed all:_stubs
 var stubsFS embed.FS
 
-const bubbleteaModule = "charm.land/bubbletea/v2"
+// modulePatch describes a module that needs stub files injected at build time.
+// stubDir is the subdirectory inside _stubs/ containing the files.
+type modulePatch struct {
+	modulePath string
+	stubDir    string
+}
+
+var modulePatches = []modulePatch{
+	{modulePath: "charm.land/bubbletea/v2", stubDir: "bubbletea"},
+	{modulePath: "github.com/atotto/clipboard", stubDir: "clipboard"},
+}
 
 func main() {
 	if len(os.Args) < 2 {
@@ -53,11 +64,11 @@ func run(buildArgs []string) error {
 		return fmt.Errorf("go mod download: %w", err)
 	}
 
-	// Locate bubbletea in the module cache
-	btDir, err := findModuleDir(bubbleteaModule)
+	tmpDir, err := os.MkdirTemp("", "boba-wasm-build-*")
 	if err != nil {
-		return fmt.Errorf("locate %s: %w", bubbleteaModule, err)
+		return fmt.Errorf("create temp dir: %w", err)
 	}
+	defer func() { _ = os.RemoveAll(tmpDir) }()
 
 	// Locate the invoking project's go.mod
 	origModPath, err := goEnv("GOMOD")
@@ -68,37 +79,8 @@ func run(buildArgs []string) error {
 		return errors.New("no go.mod found — run this from a Go module")
 	}
 
-	tmpDir, err := os.MkdirTemp("", "boba-wasm-build-*")
-	if err != nil {
-		return fmt.Errorf("create temp dir: %w", err)
-	}
-	defer func() { _ = os.RemoveAll(tmpDir) }()
-
-	// Copy bubbletea to temp (module cache is read-only)
-	btCopy := filepath.Join(tmpDir, "bubbletea")
-	if err := copyTree(btDir, btCopy); err != nil {
-		return fmt.Errorf("copy bubbletea: %w", err)
-	}
-
-	// Write embedded stubs into the copy
-	if err := fs.WalkDir(stubsFS, "_stubs", func(path string, d fs.DirEntry, walkErr error) error {
-		if walkErr != nil {
-			return walkErr
-		}
-		if d.IsDir() {
-			return nil
-		}
-		data, err := stubsFS.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		name := filepath.Base(path)
-		return os.WriteFile(filepath.Join(btCopy, name), data, 0o644)
-	}); err != nil {
-		return fmt.Errorf("write stubs: %w", err)
-	}
-
-	// Copy go.mod and go.sum to temp dir
+	// For each module that needs patching: locate in module cache, copy
+	// to temp, inject stub files, and record replace directives.
 	tmpMod := filepath.Join(tmpDir, "go.mod")
 	if err := copyFile(origModPath, tmpMod); err != nil {
 		return fmt.Errorf("copy go.mod: %w", err)
@@ -110,13 +92,32 @@ func run(buildArgs []string) error {
 		}
 	}
 
-	// Add replace directive to the temp go.mod
-	editCmd := exec.Command("go", "mod", "edit",
-		"-modfile="+tmpMod,
-		"-replace="+bubbleteaModule+"="+btCopy)
-	editCmd.Stderr = os.Stderr
-	if err := editCmd.Run(); err != nil {
-		return fmt.Errorf("add replace directive: %w", err)
+	for _, p := range modulePatches {
+		// Locate module in cache
+		srcDir, err := findModuleDir(p.modulePath)
+		if err != nil {
+			return fmt.Errorf("locate %s: %w", p.modulePath, err)
+		}
+
+		// Copy to temp (module cache is read-only)
+		dstDir := filepath.Join(tmpDir, p.stubDir)
+		if err := copyTree(srcDir, dstDir); err != nil {
+			return fmt.Errorf("copy %s: %w", p.modulePath, err)
+		}
+
+		// Write embedded stubs into the copy
+		if err := writeStubs(stubsFS, "_stubs/"+p.stubDir, dstDir); err != nil {
+			return fmt.Errorf("write stubs for %s: %w", p.modulePath, err)
+		}
+
+		// Add replace directive to the temp go.mod
+		editCmd := exec.Command("go", "mod", "edit",
+			"-modfile="+tmpMod,
+			"-replace="+p.modulePath+"="+dstDir)
+		editCmd.Stderr = os.Stderr
+		if err := editCmd.Run(); err != nil {
+			return fmt.Errorf("add replace for %s: %w", p.modulePath, err)
+		}
 	}
 
 	// Build with the temp modfile
@@ -126,6 +127,24 @@ func run(buildArgs []string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
+}
+
+// writeStubs writes all files from a subdirectory of stubsFS into dstDir.
+func writeStubs(stubsFS embed.FS, stubDir, dstDir string) error {
+	return fs.WalkDir(stubsFS, stubDir, func(path string, d fs.DirEntry, walkErr error) error {
+		if walkErr != nil {
+			return walkErr
+		}
+		if d.IsDir() {
+			return nil
+		}
+		data, err := stubsFS.ReadFile(path)
+		if err != nil {
+			return err
+		}
+		name := filepath.Base(path)
+		return os.WriteFile(filepath.Join(dstDir, name), data, 0o644)
+	})
 }
 
 func findModuleDir(path string) (string, error) {
