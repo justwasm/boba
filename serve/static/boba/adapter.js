@@ -1,5 +1,5 @@
 /**
- * Booba's BubbleTea Communication Adapter
+ * Boba's BubbleTea Communication Adapter
  *
  * Provides an abstraction layer for communicating with BubbleTea programs.
  * Supports both WebSocket (backend-server) and WASM (pure embedding) modes.
