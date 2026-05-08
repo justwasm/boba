@@ -8,9 +8,6 @@ import (
 	"github.com/btwiuse/boba/wasm"
 )
 
-// Program wraps a BubbleTea program for the browser.
-type Program = wasm.Program
-
 // NewProgram creates a new BubbleTea program for the browser.
 var NewProgram = wasm.NewProgram
 
