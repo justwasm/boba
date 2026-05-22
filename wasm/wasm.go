@@ -87,6 +87,7 @@ func NewProgram(model tea.Model, opts ...tea.ProgramOption) *Program {
 		return nil
 	})
 	js.Global().Set("bubbletea_resize", p.resizeFunc)
+	js.Global().Call("dispatchEvent", js.Global().Get("Event").New("bubbletea-ready"))
 
 	return p
 }
@@ -96,6 +97,9 @@ func (p *Program) Run() (tea.Model, error) {
 	defer p.writeFunc.Release()
 	defer p.readFunc.Release()
 	defer p.resizeFunc.Release()
+	defer js.Global().Set("bubbletea_write", js.Undefined())
+	defer js.Global().Set("bubbletea_read", js.Undefined())
+	defer js.Global().Set("bubbletea_resize", js.Undefined())
 
 	return p.prog.Run()
 }
