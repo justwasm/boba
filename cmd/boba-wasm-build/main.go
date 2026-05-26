@@ -9,7 +9,7 @@
 //
 // Usage:
 //
-//	go run github.com/btwiuse/boba/cmd/boba-wasm-build \
+//	go run github.com/justwasm/boba/cmd/boba-wasm-build \
 //	    -o web/app.wasm ./cmd/myapp/
 //
 // All flags and arguments are forwarded to `go build` unchanged.

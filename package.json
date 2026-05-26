@@ -1,5 +1,5 @@
 {
-  "name": "@btwiuse/boba",
+  "name": "@justwasm/boba",
   "version": "0.6.0",
   "type": "module",
   "description": "Terminal wrapper for BubbleTea programs using ghostty-web",
@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/btwiuse/boba.git"
+    "url": "https://github.com/justwasm/boba.git"
   },
   "license": "MIT",
   "devDependencies": {

@@ -61,10 +61,10 @@ await boba.init();
 boba.connectWasm(16); // Poll every 16ms (~60fps)
 ```
 
-**Go side**: Use `boba.Run` or `boba.NewProgram` (from `github.com/btwiuse/boba`) as the entry point — these wire up the JS bridge automatically when compiled with `GOARCH=wasm GOOS=js`. Build with `boba-wasm-build`:
+**Go side**: Use `boba.Run` or `boba.NewProgram` (from `github.com/justwasm/boba`) as the entry point — these wire up the JS bridge automatically when compiled with `GOARCH=wasm GOOS=js`. Build with `boba-wasm-build`:
 
 ```sh
-go run github.com/btwiuse/boba/cmd/boba-wasm-build -o web/app.wasm ./cmd/myapp/
+go run github.com/justwasm/boba/cmd/boba-wasm-build -o web/app.wasm ./cmd/myapp/
 ```
 
 For advanced use cases that need direct control over the JS bridge (custom `js.FuncOf` callbacks, manual buffer management, etc.), the [`wasm`](./wasm) subpackage exposes the low-level API.

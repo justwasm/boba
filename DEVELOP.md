@@ -2,17 +2,17 @@
 
 ## Building from Source
 
-boba vendors [`ghostty-web`](https://github.com/btwiuse/ghostty-web) (btwiuse fork) as a git submodule at `third_party/ghostty-web`. Clone with submodules:
+boba vendors [`ghostty-web`](https://github.com/justwasm/ghostty-web) (justwasm fork) as a git submodule at `third_party/ghostty-web`. Clone with submodules:
 
 ```sh
-git clone --recurse-submodules https://github.com/btwiuse/boba.git
+git clone --recurse-submodules https://github.com/justwasm/boba.git
 # or after a regular clone:
 git submodule update --init --recursive
 ```
 
 Then `task build` builds everything: the wasm + JS inside the submodule, the boba TypeScript embed, copies the artifacts into `serve/static/` for `go:embed`, and produces `bin/boba`. The build needs `bun` and `zig 0.15.2`; locally `task` will use `nix develop` from `third_party/ghostty-web/flake.nix` if `nix` is on PATH (recommended), otherwise it expects both to be available directly. See `Taskfile.yml:build-ghostty-web`.
 
-The embedded `serve/static/boba/*.js` and `serve/static/ghostty-web/*` files are committed so `go install github.com/btwiuse/boba/cmd/boba` works without a JS toolchain. CI rebuilds them on every push and force-commits the result back to the branch (`.github/workflows/rebuild-static.yml`), so the bytes in HEAD are always traceable to a CI run plus the submodule SHA. To verify locally: clone with submodules, run `task build`, and inspect any diff in `serve/static/` — bytes may differ from the CI-built ones due to build-environment determinism, but the *source* should be identical.
+The embedded `serve/static/boba/*.js` and `serve/static/ghostty-web/*` files are committed so `go install github.com/justwasm/boba/cmd/boba` works without a JS toolchain. CI rebuilds them on every push and force-commits the result back to the branch (`.github/workflows/rebuild-static.yml`), so the bytes in HEAD are always traceable to a CI run plus the submodule SHA. To verify locally: clone with submodules, run `task build`, and inspect any diff in `serve/static/` — bytes may differ from the CI-built ones due to build-environment determinism, but the *source* should be identical.
 
 ## Command Documentation
 

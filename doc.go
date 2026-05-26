@@ -11,7 +11,7 @@
 //	import (
 //	    "log"
 //
-//	    boba "github.com/btwiuse/boba"
+//	    boba "github.com/justwasm/boba"
 //	)
 //
 //	func main() {
@@ -29,7 +29,7 @@
 //	}
 //
 // For more granular control, subpackages are available:
-//   - [github.com/btwiuse/boba/wasm] exposes the browser bridge directly.
-//   - [github.com/btwiuse/boba/serve] runs a BubbleTea program as an
+//   - [github.com/justwasm/boba/wasm] exposes the browser bridge directly.
+//   - [github.com/justwasm/boba/serve] runs a BubbleTea program as an
 //     HTTP/WebSocket/WebTransport backend for browser clients.
 package boba

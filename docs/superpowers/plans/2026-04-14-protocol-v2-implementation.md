@@ -1935,7 +1935,7 @@ func startWebServer(addr string) {
 }
 ```
 
-Update imports to include `"context"`, `"net"`, `"strconv"`, and `"github.com/btwiuse/boba/serve"`. Remove the import of `"github.com/btwiuse/boba/internal/boba_server"`.
+Update imports to include `"context"`, `"net"`, `"strconv"`, and `"github.com/justwasm/boba/serve"`. Remove the import of `"github.com/justwasm/boba/internal/boba_server"`.
 
 - [ ] **Step 2: Verify it compiles**
 

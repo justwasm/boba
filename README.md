@@ -1,10 +1,10 @@
 # boba - browser-oriented bubbletea adapter
 
 <p>
-    <a href="https://btwiuse.github.io/boba/"><img src="https://img.shields.io/badge/Command%20Ref-6B2DAD" alt="Command Reference"></a>
-    <a href="https://github.com/btwiuse/boba/tags"><img src="https://img.shields.io/github/tag/btwiuse/boba.svg" alt="Latest Release"></a>
-    <a href="https://pkg.go.dev/github.com/btwiuse/boba?tab=doc"><img src="https://pkg.go.dev/badge/github.com/btwiuse/boba?utm_source=godoc" alt="GoDoc"></a>
-    <a href="https://github.com/btwiuse/boba/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg"  alt="Code Of Conduct"></a>
+    <a href="https://justwasm.github.io/boba/"><img src="https://img.shields.io/badge/Command%20Ref-6B2DAD" alt="Command Reference"></a>
+    <a href="https://github.com/justwasm/boba/tags"><img src="https://img.shields.io/github/tag/justwasm/boba.svg" alt="Latest Release"></a>
+    <a href="https://pkg.go.dev/github.com/justwasm/boba?tab=doc"><img src="https://pkg.go.dev/badge/github.com/justwasm/boba?utm_source=godoc" alt="GoDoc"></a>
+    <a href="https://github.com/justwasm/boba/blob/main/CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg"  alt="Code Of Conduct"></a>
 </p>
 
 `boba` is a Golang module that facilitates embedding [BubbleTea](https://github.com/charmbracelet/bubbletea) Terminal User Interfaces (TUIs) into a Web Browser.
@@ -16,7 +16,7 @@
 **Go** (server-side library and CLI tools):
 
 ```sh
-go get github.com/btwiuse/boba
+go get github.com/justwasm/boba
 ```
 
 ## How and What?
@@ -40,7 +40,7 @@ package main
 import (
     "log"
 
-    boba "github.com/btwiuse/boba"
+    boba "github.com/justwasm/boba"
 )
 
 func main() {
@@ -61,7 +61,7 @@ func main() {
 }
 ```
 
-Build and run natively with `go run ./cmd/myapp`. Build for the browser with `go run github.com/btwiuse/boba/cmd/boba-wasm-build -o web/app.wasm ./cmd/myapp/`.
+Build and run natively with `go run ./cmd/myapp`. Build for the browser with `go run github.com/justwasm/boba/cmd/boba-wasm-build -o web/app.wasm ./cmd/myapp/`.
 
 For finer control, the [`wasm`](./wasm) subpackage exposes the browser bridge directly, and native code can construct a `tea.Program` the usual way.
 

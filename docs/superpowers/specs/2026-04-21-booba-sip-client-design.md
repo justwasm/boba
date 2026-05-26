@@ -25,7 +25,7 @@ A companion CLI client covers two use cases the browser frontend cannot:
 - Minimal surface area; no features that can be deferred to a later revision
   without hurting the two goals above.
 - Clean separation from the server: the client should not import
-  `github.com/btwiuse/boba/serve`.
+  `github.com/justwasm/boba/serve`.
 
 ## Non-goals
 

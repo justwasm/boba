@@ -1,4 +1,4 @@
-module github.com/btwiuse/boba
+module github.com/justwasm/boba
 
 go 1.25.0
 

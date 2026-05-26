@@ -1,8 +1,8 @@
-# `@btwiuse/boba` npm Package Implementation Plan
+# `@justwasm/boba` npm Package Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Publish boba's TypeScript terminal wrapper as `@btwiuse/boba` on GitHub Packages, with dual build output for both npm consumers and Go `serve` embedding.
+**Goal:** Publish boba's TypeScript terminal wrapper as `@justwasm/boba` on GitHub Packages, with dual build output for both npm consumers and Go `serve` embedding.
 
 **Architecture:** Single TS source tree (`ts/`) compiled by two tsconfigs — `tsconfig.json` outputs to `dist/` for npm, `tsconfig.embed.json` outputs to `serve/static/boba/` for `go:embed`. The ghostty-web import changes from a relative path to a bare package name, with `paths` remapping it for the embed build.
 
@@ -168,7 +168,7 @@ Replace `package.json` with:
 
 ```json
 {
-  "name": "@btwiuse/boba",
+  "name": "@justwasm/boba",
   "version": "0.1.0",
   "type": "module",
   "description": "Terminal wrapper for BubbleTea programs using ghostty-web",
@@ -193,7 +193,7 @@ Replace `package.json` with:
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/btwiuse/boba.git"
+    "url": "https://github.com/justwasm/boba.git"
   },
   "license": "MIT",
   "peerDependencies": {
@@ -238,7 +238,7 @@ Expected: Lists only files under `dist/` plus package.json/README. No `ts/` sour
 
 ```bash
 git add package.json package-lock.json
-git commit -m "build: configure package.json for @btwiuse/boba npm package"
+git commit -m "build: configure package.json for @justwasm/boba npm package"
 ```
 
 ---
@@ -407,7 +407,7 @@ Replace `/Users/evan/projects/boba-example/package.json` with:
 {
   "private": true,
   "dependencies": {
-    "@btwiuse/boba": "^0.1.0",
+    "@justwasm/boba": "^0.1.0",
     "ghostty-web": "^0.4.0-next.14.g6a1a50d"
   }
 }
@@ -441,19 +441,19 @@ In `.github/workflows/pages.yml`, update the "Copy runtime assets" step to:
           cp node_modules/ghostty-web/dist/ghostty-web.js web/ghostty-web/
           cp node_modules/ghostty-web/dist/ghostty-vt.wasm web/ghostty-web/
           mkdir -p web/boba
-          cp node_modules/@btwiuse/boba/dist/*.js web/boba/
+          cp node_modules/@justwasm/boba/dist/*.js web/boba/
 ```
 
 - [ ] **Step 6: Update docs/GUIDE_GITHUB.md in boba repo**
 
-In `/Users/evan/projects/boba/docs/GUIDE_GITHUB.md`, update the "Copy runtime assets" workflow step to match the new pattern (copy from `node_modules/@btwiuse/boba/dist/` instead of building from source), and update the package.json example to include `@btwiuse/boba` as a dependency with an `.npmrc` note.
+In `/Users/evan/projects/boba/docs/GUIDE_GITHUB.md`, update the "Copy runtime assets" workflow step to match the new pattern (copy from `node_modules/@justwasm/boba/dist/` instead of building from source), and update the package.json example to include `@justwasm/boba` as a dependency with an `.npmrc` note.
 
 - [ ] **Step 7: Commit both repos**
 
 In boba repo:
 ```bash
 git -C /Users/evan/projects/boba add docs/GUIDE_GITHUB.md
-git -C /Users/evan/projects/boba commit -m "docs: update guide to use @btwiuse/boba npm package"
+git -C /Users/evan/projects/boba commit -m "docs: update guide to use @justwasm/boba npm package"
 ```
 
 Note: The example repo commits happen separately when that repo is ready to push. The npm package must be published first (tag `v0.1.0` in boba repo) before the example repo's `npm ci` will work.
@@ -484,11 +484,11 @@ git tag v0.1.0
 git push origin main --tags
 ```
 
-Expected: The `release.yml` workflow triggers and publishes `@btwiuse/boba@0.1.0` to GitHub Packages.
+Expected: The `release.yml` workflow triggers and publishes `@justwasm/boba@0.1.0` to GitHub Packages.
 
 - [ ] **Step 3: Verify the package is published**
 
-Run: `npm view @btwiuse/boba --registry=https://npm.pkg.github.com`
+Run: `npm view @justwasm/boba --registry=https://npm.pkg.github.com`
 
 Expected: Shows version `0.1.0` with the correct metadata.
 
@@ -500,6 +500,6 @@ Run in boba-example:
 npm install
 ```
 
-Expected: `@btwiuse/boba` and `ghostty-web` install into `node_modules/`.
+Expected: `@justwasm/boba` and `ghostty-web` install into `node_modules/`.
 
-Verify: `ls node_modules/@btwiuse/boba/dist/boba.js` exists.
+Verify: `ls node_modules/@justwasm/boba/dist/boba.js` exists.

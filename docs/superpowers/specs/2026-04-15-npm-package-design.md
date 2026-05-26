@@ -1,11 +1,11 @@
-# Design: `@btwiuse/boba` npm Package
+# Design: `@justwasm/boba` npm Package
 
 **Date:** 2026-04-15
 **Status:** Approved
 
 ## Goal
 
-Publish boba's TypeScript terminal wrapper as `@btwiuse/boba` on
+Publish boba's TypeScript terminal wrapper as `@justwasm/boba` on
 GitHub Packages so consumers can `npm install` it instead of copying
 pre-built JS files. The Go `serve` package continues to embed compiled
 assets via `go:embed`.
@@ -96,7 +96,7 @@ No other TS files need changes — they only import from sibling `./` paths.
 
 ```json
 {
-  "name": "@btwiuse/boba",
+  "name": "@justwasm/boba",
   "version": "0.1.0",
   "type": "module",
   "description": "Terminal wrapper for BubbleTea programs using ghostty-web",
@@ -188,11 +188,11 @@ Add `dist/` to `.gitignore` — npm build output should not be committed.
 @nimblemarkets:registry=https://npm.pkg.github.com
 ```
 
-**`package.json`** adds `@btwiuse/boba` as a dependency:
+**`package.json`** adds `@justwasm/boba` as a dependency:
 ```json
 {
   "dependencies": {
-    "@btwiuse/boba": "^0.1.0",
+    "@justwasm/boba": "^0.1.0",
     "ghostty-web": "^0.4.0-next.14.g6a1a50d"
   }
 }
@@ -209,7 +209,7 @@ copies from `node_modules` instead:
     cp node_modules/ghostty-web/dist/ghostty-web.js web/ghostty-web/
     cp node_modules/ghostty-web/dist/ghostty-vt.wasm web/ghostty-web/
     mkdir -p web/boba
-    cp node_modules/@btwiuse/boba/dist/*.js web/boba/
+    cp node_modules/@justwasm/boba/dist/*.js web/boba/
 ```
 
 **`web/index.html`** stays the same — imports from `./boba/boba.js`
@@ -232,7 +232,7 @@ which is populated at build time.
 | File | Change |
 |------|--------|
 | `.npmrc` | New file — points `@nimblemarkets` scope at GitHub Packages |
-| `package.json` | Add `@btwiuse/boba` dependency |
+| `package.json` | Add `@justwasm/boba` dependency |
 | `web/boba/` | Remove checked-in JS files |
 | `.github/workflows/pages.yml` | Copy boba from `node_modules` |
 | `.gitignore` | Add `web/boba/` |

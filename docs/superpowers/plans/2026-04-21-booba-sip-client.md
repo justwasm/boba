@@ -7,7 +7,7 @@
 **Architecture:** Extract the Sip protocol constants/helpers from `serve/` into a new shared `sip/` package. Add a new binary `cmd/boba-sip-client/` and its CLI package `internal/sipclient/` built on cobra + pflag. The interactive client uses `golang.org/x/term` for raw-mode tty handling, `github.com/charmbracelet/x/input` for Kitty-aware key parsing (needed to detect the `^]` escape reliably when Kitty mode is on), and `github.com/coder/websocket` (already used by `serve/`) as transport. The `--dump-frames` mode reuses the same frame router to emit JSON lines on stdout.
 
 **Tech Stack:**
-- Go 1.25, module `github.com/btwiuse/boba`
+- Go 1.25, module `github.com/justwasm/boba`
 - `github.com/spf13/cobra` + `github.com/spf13/pflag` (project convention — NEVER stdlib `flag`)
 - `github.com/coder/websocket` v1.8.14 (already a direct dep)
 - `golang.org/x/term` (raw mode, terminal size)
@@ -52,7 +52,7 @@ grep -rn -E 'Msg(Input|Output|Resize|Ping|Pong|Title|Options|Close|KittyKbd)|Max
 ```
 
 For each match in `serve/*.go`:
-1. Add `"github.com/btwiuse/boba/sip"` to the file's import block (keep imports grouped: stdlib / external / module-local).
+1. Add `"github.com/justwasm/boba/sip"` to the file's import block (keep imports grouped: stdlib / external / module-local).
 2. Replace the bare symbol (e.g., `MsgInput`) with the qualified form (`sip.MsgInput`).
 
 Do the same for `serve/*_test.go` files.
@@ -250,7 +250,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/btwiuse/boba/internal/sipclient"
+	"github.com/justwasm/boba/internal/sipclient"
 )
 
 func main() {
@@ -860,7 +860,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 type fakeHandler struct {
@@ -1028,7 +1028,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // ErrSessionClosed is returned by Router.Route when a MsgClose frame is
@@ -1147,7 +1147,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 func TestDumpHandler_Frames(t *testing.T) {
@@ -1207,7 +1207,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // DumpHandler implements FrameHandler by writing one JSON line per frame to
@@ -1638,7 +1638,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // RunDump opens a connection to opts.URL and writes decoded frames as JSON
@@ -1789,7 +1789,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // fakeServer is a minimal /ws endpoint that sends one options frame, one
@@ -1999,7 +1999,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // TTY abstracts the pieces of a local terminal the interactive client needs.
@@ -2236,7 +2236,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // fakeTTY is an in-memory TTY for tests. Writes go to stdout; reads come from
@@ -2640,7 +2640,7 @@ import (
 	"time"
 
 	"github.com/coder/websocket"
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // resizeTTY lets the test change the reported size on demand.
@@ -3063,8 +3063,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/btwiuse/boba/internal/sipclient"
-	"github.com/btwiuse/boba/serve"
+	"github.com/justwasm/boba/internal/sipclient"
+	"github.com/justwasm/boba/serve"
 )
 
 func TestE2E_DumpFramesAgainstRealServer(t *testing.T) {

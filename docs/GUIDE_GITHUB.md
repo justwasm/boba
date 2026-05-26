@@ -1,6 +1,6 @@
 # Hosting a BubbleTea Program on GitHub Pages
 
-See **[btwiuse/boba-example](https://github.com/btwiuse/boba-example)** —
+See **[justwasm/boba-example](https://github.com/justwasm/boba-example)** —
 a complete, forkable example that compiles a BubbleTea program to WebAssembly
 and deploys it to GitHub Pages. No backend server needed.
 

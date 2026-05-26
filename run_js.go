@@ -5,7 +5,7 @@ package boba
 import (
 	tea "charm.land/bubbletea/v2"
 
-	"github.com/btwiuse/boba/wasm"
+	"github.com/justwasm/boba/wasm"
 )
 
 // NewProgram creates a new BubbleTea program for the browser.

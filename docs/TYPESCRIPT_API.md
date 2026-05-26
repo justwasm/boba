@@ -7,11 +7,11 @@ The `BobaTerminal` class wraps ghostty-web's Terminal and provides a high-level 
 Install the package:
 
 ```sh
-npm install @btwiuse/boba
+npm install @justwasm/boba
 ```
 
 ```javascript
-import { BobaTerminal } from '@btwiuse/boba';
+import { BobaTerminal } from '@justwasm/boba';
 // or, if using the files directly from the server's embedded assets:
 // import { BobaTerminal } from './boba/boba.js';
 

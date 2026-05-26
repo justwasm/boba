@@ -7,7 +7,7 @@
 **Architecture:** Introduce a `FrameConn` interface inside `internal/sipclient/` that abstracts the framed transport. The existing `*websocket.Conn` call sites (`RunDump`, `runInteractive`, `Router.Pong`, send helpers) are refactored to depend on this interface. A `wsFrameConn` wraps the current WebSocket path; a new `wtFrameConn` wraps `*webtransport.Session` plus its bidirectional stream. `Dial` dispatches by URL scheme.
 
 **Tech Stack:**
-- Go 1.25, module `github.com/btwiuse/boba`
+- Go 1.25, module `github.com/justwasm/boba`
 - `github.com/coder/websocket` v1.8.14 (already direct)
 - `github.com/quic-go/webtransport-go` v0.10.0 (already indirect via `serve/`; promoted to direct by this work)
 - Standard Go testing
@@ -259,7 +259,7 @@ import (
 
 	"github.com/coder/websocket"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // newWSPair returns a paired (server, client) FrameConn for testing. The
@@ -380,7 +380,7 @@ import (
 
 	"github.com/coder/websocket"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // wsFrameConn wraps a *websocket.Conn into the FrameConn interface.
@@ -811,7 +811,7 @@ import (
 
 	"github.com/quic-go/webtransport-go"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // newWTPair returns a paired (server, client) FrameConn backed by a real
@@ -1015,7 +1015,7 @@ import (
 
 	"github.com/quic-go/webtransport-go"
 
-	"github.com/btwiuse/boba/sip"
+	"github.com/justwasm/boba/sip"
 )
 
 // wtFrameConn wraps a *webtransport.Session plus its single bidirectional

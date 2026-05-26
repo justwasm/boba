@@ -11,7 +11,7 @@
 //	//go:build js && wasm
 //	package main
 //
-//	import "github.com/btwiuse/boba/wasm"
+//	import "github.com/justwasm/boba/wasm"
 //
 //	func main() {
 //	    wasm.Run(initialModel())

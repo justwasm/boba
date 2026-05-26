@@ -13,7 +13,7 @@ End-to-end kitty graphics support — `kitten icat`, [ntcharts image demos](http
 
   **Note:** kitty graphics rendering requires a `ghostty-web` build with virtual-placement support. If pinning to a specific `ghostty-web` version, ensure it includes the `Substitute U+10EEEE cells with kitty graphics image slices` change.
 
-To achieve this, we are maintaining a [btwiuse fork of ghostty-web](https://github.com/btwiuse/ghostty-web/tree/nm-kitty-meow) in the `nm-kitty-meow` branch.
+To achieve this, we are maintaining a [justwasm fork of ghostty-web](https://github.com/justwasm/ghostty-web/tree/nm-kitty-meow) in the `nm-kitty-meow` branch.
 
 ## `v0.5.3` (2026-04-23)
 
